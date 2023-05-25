@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Validation\Rules;
+use Hash;
 
 class ProfileController extends Controller
 {
@@ -31,30 +32,50 @@ class ProfileController extends Controller
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        try {
+            $request->user()->save();
+            return Redirect::route('profile.edit')->with('success', 'Profile updated successfull');
+        } catch (\Exception $e) {
+            return Redirect::route('profile.edit')->with('danger', $e->getMessage());
+        }
     }
 
     /**
-     * Delete the user's account.
+     * Password Update
      */
-    public function destroy(Request $request): RedirectResponse
+    public function password_get(): View
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current-password'],
+        return view('profile.password');
+    }
+
+    public function password_post(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'old_password' => 'required|',
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = $request->user();
+        try {
+            $user = \App\Models\User::first($request->user()->id)->first();
 
-        Auth::logout();
+            if (Hash::check($request->old_password, $user->password)) {
 
-        $user->delete();
+                $user->update(['password' => Hash::make($request->password)]);
+                return Redirect::route('password.edit')->with('success', 'Password update success.');
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+            } else {
 
-        return Redirect::to('/');
+                return Redirect::route('password.edit')->with('danger', 'Oop\'s something went wrong.');
+                
+            }
+
+        } catch (\Exception $e) {
+            return Redirect::route('password.edit')->with('danger', $e->getMessage());
+
+        }
+
+
+
+
     }
 }

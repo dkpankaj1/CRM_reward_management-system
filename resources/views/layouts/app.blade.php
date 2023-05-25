@@ -8,20 +8,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Starter</title>
+    <title>{{ config('app.name', 'Admin') }} | Dashboard</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
-    <style>
-        .logout-btn:hover {
-            color: #fff;
-        }
-    </style>
+
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -45,7 +44,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Brand Logo -->
 
             <!-- Sidebar -->
-            <div class="sidebar os-host os-theme-light os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition">
+            <div
+                class="sidebar os-host os-theme-light os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition">
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
 
@@ -78,7 +78,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         <!-- Begin::Customer Menu-->
                         <li class="nav-item">
-                            <a href="{{ route('dashboard') }}" class="nav-link">
+                            <a href="{{ route('customer.index') }}" class="nav-link">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>Customer</p>
                             </a>
@@ -126,7 +126,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
                         <!-- End::Report Menu-->
 
-                         <!-- Begin::Profile Menu-->
+                        <!-- Begin::Profile Menu-->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-user"></i>
@@ -137,13 +137,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('profile.edit') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Edit Profile</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{route('password.edit')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Change Password</p>
                                     </a>
@@ -151,6 +151,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </ul>
                         </li>
                         <!-- End::Profile Menu-->
+
+                        <!-- Begin::Master Menu-->
+                        @if (Auth::user()->email == config('admin.email'))
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-cogs"></i>
+                                    <p>
+                                        Master
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>System Setup</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                        <!-- End::Master Menu-->
 
                         <!-- Begin::Logout Menu-->
                         <li class="nav-item">
@@ -171,21 +193,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0">Starter Page</h1>
-                        </div><!-- /.col -->
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Starter Page</li>
-                            </ol>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                </div><!-- /.container-fluid -->
-            </div>
+            @yield('breadcrumb')
             <!-- /.content-header -->
 
             <!-- Main content -->
@@ -215,13 +223,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
     <!-- ChartJS -->
     <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
-
+    <!-- Toastr -->
+    <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
-    
+
+    @if (Session::has('success'))
+        <script>
+            toastr.success("{{Session::get('success')}}")
+        </script>
+    @endif
+
+    @if (Session::has('danger'))
+        <script>
+            toastr.error("{{Session::get('danger')}}")
+        </script>
+    @endif
+
     @yield('script')
 
 </body>
