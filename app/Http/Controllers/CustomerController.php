@@ -59,30 +59,30 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request): RedirectResponse
-    {
+    {  
         $request->validate([
-            'card_number' => 'required|unique:customers,card',
-            'name' => 'required',
-            'phone' => 'required',
-            'vehicle' => 'nullable|string',
-            'city' => 'nullable|string',
-            'address' => 'nullable|string',
-            'state' => 'nullable|string',
-            'payment_method' => 'required',
-            'payment_detail' => 'nullable|string',
+            'card_number'       => 'required|unique:customers,card',
+            'name'              => 'required',
+            'phone'             => 'required',
+            'vehicle'           => 'nullable|string',
+            'city'              => 'nullable|string',
+            'address'           => 'nullable|string',
+            'state'             => 'nullable|string',
+            'payment_method'    => 'required',
+            'payment_detail'    => 'nullable|string',
         ]);
 
         $customer = [
-            "card" => $request->card_number,
-            "name" => $request->name,
-            "phone" => $request->phone,
-            "vehicle_number" => $request->vehicle,
-            "city" => $request->city,
-            "address" => $request->address,
-            "state" => $request->state,
-            "payment_type" => $request->payment_method,
-            "payment_detail" => $request->payment_detail,
-            "created_by" => $request->user()->email
+            "card"              => $request->card_number,
+            "name"              => $request->name,
+            "phone"             => $request->phone,
+            "vehicle_number"    => $request->vehicle,
+            "city"              => $request->city,
+            "address"           => $request->address,
+            "state"             => $request->state,
+            "payment_type"      => $request->payment_method,
+            "payment_detail"    => $request->payment_detail,
+            "created_by"        => $request->user()->email
         ];
         try {
             Customer::create($customer);

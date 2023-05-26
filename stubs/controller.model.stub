@@ -1,0 +1,156 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use {{ rootNamespace }}Http\Controllers\Controller;
+use {{ namespacedRequests }}
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+
+class {{ class }} extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index() : View
+    {
+        try {
+
+            $resources = {{ model }}::query();
+            /** if isset search */ 
+            //if (request('search')) {
+            //    $resources->where('name', 'Like', '%' . request('search') . '%')
+            //        ->orwhere('card', 'Like', '%' . request('search') . '%');
+            //}
+            $data =  $resources->paginate(10);
+            return view('index', compact('data'));
+        } catch (\Exception $e) {
+            return view('error.404', ['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(): View
+    {
+        try {
+            return view('create');
+        } catch (\Exception $e) {
+            return view('error.404', ['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \{{ namespacedStoreRequest }}  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store({{ storeRequest }} $request) : RedirectResponse
+    {
+        $request->validate([
+        ]);
+
+        $data = [ 
+        ];
+
+        try {
+            {{ model }}::create($data);
+            return redirect()->route('index')->with('success', 'Create successfull');
+        } catch (\Exception $e) {
+            return back()->with('danger', $e->getMessage());
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function show({{ model }} ${{ modelVariable }}) : View
+    {
+         try {
+            return view('show', ['data' =>${{ modelVariable }}]);
+        } catch (\Exception $e) {
+            return view('error.404', ['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function edit({{ model }} ${{ modelVariable }}) : View
+    {
+         try {
+            return view('edit', ['data' => ${{ modelVariable }}]);
+        } catch (\Exception $e) {
+            return view('error.404', ['error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \{{ namespacedUpdateRequest }}  $request
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function update({{ updateRequest }} $request, {{ model }} ${{ modelVariable }}) :RedirectResponse
+    {
+      $request->validate([
+        ]);
+
+        $data = [ 
+        ];
+
+        try {
+            ${{ modelVariable }}->update($data);
+            return redirect()->route('index')->with('success', 'Update successfull');
+        } catch (\Exception $e) {
+            return back()->with('danger', $e->getMessage());
+        }   
+    }
+
+    
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Customer  $customer
+     * @return \Illuminate\Http\Response
+     */
+    public function delete({{ model }} ${{ modelVariable }}) : View
+    {
+        try {
+            return view('delete', ['data' => ${{ modelVariable }}]);
+        } catch (\Exception $e) {
+            return view('error.404', ['error' => $e->getMessage()]);
+        }
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy({{ model }} ${{ modelVariable }}) : RedirectResponse
+    {
+        try {
+            ${{ modelVariable }}->delete();
+            return redirect()->route('index')->with('success', 'delete successfull');
+        } catch (\Exception $e) {
+            return back()->with('danger', $e->getMessage());
+        }
+    }
+}

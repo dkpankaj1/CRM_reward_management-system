@@ -22,4 +22,8 @@ class Customer extends Model
         "created_by",
         "updated_by"
     ];
+
+    public function purchases(){
+        return $this->hasMany(Purchase::class);
+    }
 }

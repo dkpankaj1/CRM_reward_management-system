@@ -85,8 +85,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
                         <!-- End::Customer Menu-->
 
-                        <!-- Begin::Payment Menu-->
+                        <!-- Begin::Reward Menu-->
                         <li class="nav-item">
+                            <a href="{{ route('dashboard') }}" class="nav-link">
+                                <i class="nav-icon fas fa-shopping-basket"></i>
+                                <p>Purchase</p>
+                            </a>
+                        </li>
+                        <!-- End::Reward Menu-->
+
+                           <!-- Begin::Payment Menu-->
+                           <li class="nav-item">
                             <a href="{{ route('dashboard') }}" class="nav-link">
                                 <i class="nav-icon fas fa-money-bill-wave"></i>
                                 <p>Payment</p>
@@ -164,9 +173,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
+                                        <a href="{{route('setting.reward.index')}}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>System Setup</p>
+                                            <p>Reword Setup</p>
                                         </a>
                                     </li>
                                 </ul>
