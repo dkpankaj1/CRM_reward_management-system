@@ -15,17 +15,33 @@ class PurchaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() : View
+    public function index(): View
     {
         try {
-            $resources = Purchase::query();
-            /** if isset search */ 
+            $resources = Purchase::join('customers', 'customers.id', '=', 'purchases.customer_id')->select([
+                'purchases.id',
+                'purchases.trans_id',
+                'purchases.product',
+                'purchases.volume',
+                'purchases.amt',
+                'customers.card',
+                'customers.name',
+                'customers.vehicle_number'
+                ])->latest('purchases.created_at');
+
+            /** if isset search */
             if (request('search')) {
-               $resources->where('name', 'Like', '%' . request('search') . '%')
-                   ->orwhere('card', 'Like', '%' . request('search') . '%');
+                $resources->where('customers.name', 'Like', '%' . request('search') . '%')
+                    ->orwhere('customers.card', 'Like', '%' . request('search') . '%')
+                    ->orwhere('purchases.trans_id', 'Like', '%' . request('search') . '%')
+                    ->orwhere('purchases.product', 'Like', '%' . request('search') . '%')
+                    ->orwhere('purchases.volume', 'Like', '%' . request('search') . '%')
+                    ->orwhere('purchases.amt', 'Like', '%' . request('search') . '%');
             }
-            $data =  $resources->paginate(10);
-            return view('index', compact('data'));
+
+            $purchases = $resources->paginate(10);
+            return view('purchase.index', compact('purchases'));
+
         } catch (\Exception $e) {
             return view('error.404', ['error' => $e->getMessage()]);
         }
@@ -40,7 +56,7 @@ class PurchaseController extends Controller
     {
         try {
             $resource = Customer::all();
-            return view('purchase.create',['customers' => $resource]);
+            return view('purchase.create', ['customers' => $resource]);
         } catch (\Exception $e) {
             return view('error.404', ['error' => $e->getMessage()]);
         }
@@ -52,17 +68,29 @@ class PurchaseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) : RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
+
         $request->validate([
+            'trans_id'      => 'required|unique:purchases,trans_id',
+            'product'       => 'required',
+            'volume'        => 'required',
+            'amt'           => 'required|numeric|min:0|max:100000',
+            'customer_id'   => 'required',
         ]);
 
-        $data = [ 
+        $data = [
+            'trans_id'      => $request->trans_id,
+            'product'       => $request->product,
+            'volume'        => $request->volume,
+            'amt'           => $request->amt,
+            'customer_id'   => $request->customer_id,
+            'created_by'    => $request->user()->email,
         ];
 
         try {
             Purchase::create($data);
-            return redirect()->route('index')->with('success', 'Create successfull');
+            return redirect()->route('purchase.index')->with('success', 'Purchase Update successfull');
         } catch (\Exception $e) {
             return back()->with('danger', $e->getMessage());
         }
@@ -74,10 +102,10 @@ class PurchaseController extends Controller
      * @param  \App\Models\Purchase  $purchase
      * @return \Illuminate\Http\Response
      */
-    public function show(Purchase $purchase) : View
+    public function show(Purchase $purchase): View
     {
-         try {
-            return view('show', ['data' =>$purchase]);
+        try {
+            return view('purchase.show', ['data' => $purchase]);
         } catch (\Exception $e) {
             return view('error.404', ['error' => $e->getMessage()]);
         }
@@ -89,10 +117,11 @@ class PurchaseController extends Controller
      * @param  \App\Models\Purchase  $purchase
      * @return \Illuminate\Http\Response
      */
-    public function edit(Purchase $purchase) : View
+    public function edit(Purchase $purchase): View
     {
-         try {
-            return view('edit', ['data' => $purchase]);
+        try {
+            $customers  = Customer::all();
+            return view('purchase.edit', ['data' => $purchase,'customers' => $customers]);
         } catch (\Exception $e) {
             return view('error.404', ['error' => $e->getMessage()]);
         }
@@ -105,33 +134,44 @@ class PurchaseController extends Controller
      * @param  \App\Models\Purchase  $purchase
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Purchase $purchase) :RedirectResponse
+    public function update(Request $request, Purchase $purchase): RedirectResponse
     {
-      $request->validate([
+        $request->validate([
+            'trans_id'      => 'required|unique:purchases,trans_id,'.$purchase->id,
+            'product'       => 'required',
+            'volume'        => 'required',
+            'amt'           => 'required|numeric|min:0|max:100000',
+            'customer_id'   => 'required',
         ]);
 
-        $data = [ 
+        $data = [
+            'trans_id'      => $request->trans_id,
+            'product'       => $request->product,
+            'volume'        => $request->volume,
+            'amt'           => $request->amt,
+            'customer_id'   => $request->customer_id,
+            'created_by'    => $request->user()->email,
         ];
 
         try {
             $purchase->update($data);
-            return redirect()->route('index')->with('success', 'Update successfull');
+            return redirect()->route('purchase.index')->with('success', 'Update successfull');
         } catch (\Exception $e) {
             return back()->with('danger', $e->getMessage());
-        }   
+        }
     }
 
-    
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function delete(Purchase $purchase) : View
+    public function delete(Purchase $purchase): View
     {
         try {
-            return view('delete', ['data' => $purchase]);
+            return view('purchase.delete', ['purchase' => $purchase]);
         } catch (\Exception $e) {
             return view('error.404', ['error' => $e->getMessage()]);
         }
@@ -144,11 +184,12 @@ class PurchaseController extends Controller
      * @param  \App\Models\Purchase  $purchase
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Purchase $purchase) : RedirectResponse
+    public function destroy(Request $request, Purchase $purchase): RedirectResponse
     {
         try {
+            $purchase->update(['deleted_by' => $request->user()->email]);
             $purchase->delete();
-            return redirect()->route('index')->with('success', 'delete successfull');
+            return redirect()->route('purchase.index')->with('success', 'delete successfull');
         } catch (\Exception $e) {
             return back()->with('danger', $e->getMessage());
         }

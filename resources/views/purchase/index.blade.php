@@ -1,13 +1,13 @@
 <x-app-layout>
 
     @section('breadcrumb')
-        {{ Breadcrumbs::render('customer.index') }}
+        {{ Breadcrumbs::render('purchase.index') }}
     @endsection
 
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-items-center justify-content-between">
-                <a href="{{ route('customer.create') }}" class="btn btn-primary">Create</a>
+                <a href="{{ route('purchase.create') }}" class="btn btn-primary">Create</a>
                 <form class="search-form">
                     <div class="input-group">
                         <input type="text" name="search" class="form-control" placeholder="Search"
@@ -29,33 +29,33 @@
                 <thead>
                     <tr>
                         <th style="width: 10px">#</th>
-                        <th>Card</th>
+                        <th>Trean. ID</th>
                         <th>Name</th>
-                        <th>Phone</th>
                         <th>Vehicle Number</th>
-                        <th>City</th>
-                        <th>State</th>
+                        <th>Product</th>
+                        <th>Volume</th>
+                        <th>Sale AMT</th>
                         <th style="width: 40px">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if (count($customers) > 0)
+                    @if (count($purchases) > 0)
 
-                        @foreach ($customers as $customer)
+                        @foreach ($purchases as $key => $purchase )
                             <tr>
-                                <td>#</td>
-                                <td>{{ $customer->card }}</td>
-                                <td>{{ $customer->name }}</td>
-                                <td>{{ $customer->phone }}</td>
-                                <td>{{ $customer->vehicle_number }}</td>
-                                <td>{{ $customer->city }}</td>
-                                <td>{{ $customer->state }}</td>
+                                <td>{{ $key+1 }}</td>
+                                {{-- <td>{{ $purchase->id }}</td> --}}
+                                <td>{{ $purchase->trans_id }}</td>
+                                <td>{{ $purchase->name }}</td>
+                                <td>{{ $purchase->vehicle_number }}</td>
+                                <td>{{ $purchase->product }}</td>
+                                <td>{{ $purchase->volume }}</td>
+                                <td>{{ $purchase->amt }}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ route('customer.show', $customer) }}" class="btn btn-success" title="Add Activity"><i class="fas fa-plus-circle"></i></a>
-                                        <a href="{{ route('customer.show', $customer) }}" class="btn btn-warning" title="View"><i class="fas fa-eye"></i></a>
-                                        <a href="{{ route('customer.edit', $customer) }}" class="btn btn-info" title="Edit"><i class="fas fa-edit"></i></a>
-                                        <button type="button" data-attr="{{route('customer.delete',$customer)}}" class="btn btn-danger d3l3t3btn" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                                        {{-- <a href="{{ route('purchase.show', $purchase) }}" class="btn btn-warning" title="View"><i class="fas fa-eye"></i></a> --}}
+                                        <a href="{{ route('purchase.edit', $purchase) }}" class="btn btn-info" title="Edit"><i class="fas fa-edit"></i></a>
+                                        <button type="button" data-attr="{{route('purchase.delete',$purchase)}}" class="btn btn-danger d3l3t3btn" title="Delete"><i class="fas fa-trash-alt"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -71,7 +71,7 @@
         </div>
         <!-- /.card-body -->
         <div class="card-footer clearfix">
-            {{ $customers->links() }}
+            {{ $purchases->links() }}
         </div>
     </div>
 

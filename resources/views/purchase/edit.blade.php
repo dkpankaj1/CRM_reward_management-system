@@ -1,128 +1,77 @@
 <x-app-layout>
     @section('breadcrumb')
-        {{ Breadcrumbs::render('customer.edit', $customer) }}
+        {{ Breadcrumbs::render('purchase.edit',$data) }}
     @endsection
 
     <div class="card">
         <div class="card-header">
-            <h3>Create new customer</h3>
+            <h3>Update Purchase</h3>
         </div>
         <div class="card-body">
-            <form action="{{ route('customer.update', $customer) }}" method="post">
+            <form action="{{ route('purchase.update',$data) }}" method="post">
                 @csrf
                 @method('put')
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <label class="form-label">FullName</label>
-                            <input type="text" name="name" class="form-control" placeholder="Enter fullname"
-                                value="{{ old('name', $customer->name) }}">
-                            @error('name')
-                                <span class="invalid-feedback d-block">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="form-label">Card Number</label>
-                            <input type="text" name="card_number" class="form-control"
-                                placeholder="Enter card number" value="{{ old('card_number', $customer->card) }}">
-                            @error('card_number')
-                                <span class="invalid-feedback d-block">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="form-label">Phone</label>
-                            <input type="text" name="phone" class="form-control" placeholder="Enter phonenumber"
-                                value="{{ old('phone', $customer->phone) }}">
-                            @error('phone')
-                                <span class="invalid-feedback d-block">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="form-label">Vehicle Number</label>
-                            <input type="text" name="vehicle" class="form-control" placeholder="Enter vehicle number"
-                                value="{{ old('vehicle', $customer->vehicle_number) }}">
-                            @error('vehicle')
-                                <span class="invalid-feedback d-block">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="form-label">City</label>
-                            <input type="text" name="city" class="form-control" placeholder="Enter city"
-                                value="{{ old('city', $customer->city) }}">
-                            @error('city')
-                                <span class="invalid-feedback d-block">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="form-label">State</label>
-                            <input type="text" name="state" class="form-control" placeholder="Enter State"
-                                value="{{ old('state', $customer->state) }}">
-                            @error('state')
-                                <span class="invalid-feedback d-block">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Address</label>
-                            <textarea type="text" name="address" class="form-control" placeholder="Enter address"> {{ old('address', $customer->address) }}</textarea>
-                            @error('address')
-                                <span class="invalid-feedback d-block">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="payment_method" class="form-label">Payment Method</label>
-                            <select class="form-control" name="payment_method">
-
-                                <option value="">-- select --</option>
-
-                                <option value="Cash"
-                                    {{ old('payment_method', $customer->payment_type) == 'Cash' ? 'selected' : '' }}>
-                                    Cash</option>
-                                <option value="Google Pay"
-                                    {{ old('payment_method', $customer->payment_type) == 'Google Pay' ? 'selected' : '' }}>
-                                    Google pay</option>
-                                <option value="Phone Pay"
-                                    {{ old('payment_method', $customer->payment_type) == 'Phone Pay' ? 'selected' : '' }}>
-                                    Phone Pay</option>
-                                <option value="UPI"
-                                    {{ old('payment_method', $customer->payment_type) == 'UPI' ? 'selected' : '' }}>UPI
-                                </option>
-                                <option value="AC"
-                                    {{ old('payment_method', $customer->payment_type) == 'AC' ? 'selected' : '' }}>AC
-                                </option>
-
+                            <label>Customer Name</label>
+                            <select class="form-control select2" style="width: 100%;" name="customer_id">
+                                <option value=""> -- select --</option>
+                                @foreach ($customers as $customer)
+                                    <option value="{{ $customer->id }}" {{$data->customer_id == $customer->id ? "selected" : " " }}>{{ $customer->name }} | {{ $customer->card }}
+                                    </option>
+                                @endforeach
                             </select>
-                            @error('payment_method')
+                            @error('customer_id')
                                 <span class="invalid-feedback d-block">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="payment_detail" class="form-label">Payment Detail</label>
-                            <input type="text" class="form-control" name="payment_detail"
-                                placeholder="Enter payment detail"
-                                value="{{ old('payment_detail', $customer->payment_detail) }}">
-                            @error('payment_detail')
+                            <label class="form-label">Trans. Id</label>
+                            <input type="text" name="trans_id" class="form-control" placeholder="Enter Trans. ID"
+                                value="{{ old('trans_id',$data->trans_id) }}">
+                            @error('trans_id')
+                                <span class="invalid-feedback d-block">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="payment_method" class="form-label">Product</label>
+                            <select class="form-control" name="product">
+                                <option value="">-- select --</option>
+                                <option value="Diesel" {{ old('product',$data->product) == 'Diesel' ? 'selected' : '' }}>Diesel
+                                </option>
+                                <option value="Petrol" {{ old('product',$data->product) == 'Petrol' ? 'selected' : '' }}>Petrol
+                                </option>
+                                <option value="CNG" {{ old('product',$data->product) == 'CNG' ? 'selected' : '' }}>CNG </option>
+                            </select>
+                            @error('product')
+                                <span class="invalid-feedback d-block">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Volume</label>
+                            <input type="text" name="volume" class="form-control" placeholder="1000 L"
+                                value="{{ old('volume',$data->volume) }}">
+                            @error('volume')
+                                <span class="invalid-feedback d-block">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Sale Amount</label>
+                            <input type="number" name="amt" class="form-control" placeholder="10000"
+                                value="{{ old('amt',$data->amt) }}">
+                            @error('amt')
                                 <span class="invalid-feedback d-block">{{ $message }}</span>
                             @enderror
                         </div>
@@ -138,5 +87,9 @@
             </form>
         </div>
     </div>
-
+    @section('script')
+        <script>
+            $('.select2').select2()
+        </script>
+    @endsection
 </x-app-layout>

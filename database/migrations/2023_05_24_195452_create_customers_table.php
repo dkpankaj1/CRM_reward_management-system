@@ -25,6 +25,7 @@ return new class extends Migration {
             $table->string('payment_detail')->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

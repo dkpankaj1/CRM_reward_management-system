@@ -15,6 +15,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
     <!-- Theme style -->
@@ -87,15 +92,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                         <!-- Begin::Reward Menu-->
                         <li class="nav-item">
-                            <a href="{{ route('dashboard') }}" class="nav-link">
+                            <a href="{{ route('purchase.index') }}" class="nav-link">
                                 <i class="nav-icon fas fa-shopping-basket"></i>
                                 <p>Purchase</p>
                             </a>
                         </li>
                         <!-- End::Reward Menu-->
 
-                           <!-- Begin::Payment Menu-->
-                           <li class="nav-item">
+                        <!-- Begin::Payment Menu-->
+                        <li class="nav-item">
                             <a href="{{ route('dashboard') }}" class="nav-link">
                                 <i class="nav-icon fas fa-money-bill-wave"></i>
                                 <p>Payment</p>
@@ -152,7 +157,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('password.edit')}}" class="nav-link">
+                                    <a href="{{ route('password.edit') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Change Password</p>
                                     </a>
@@ -173,7 +178,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="{{route('setting.reward.index')}}" class="nav-link">
+                                        <a href="{{ route('setting.reward.index') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Reword Setup</p>
                                         </a>
@@ -236,18 +241,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
     <!-- Toastr -->
     <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 
     @if (Session::has('success'))
         <script>
-            toastr.success("{{Session::get('success')}}")
+            toastr.success("{{ Session::get('success') }}")
         </script>
     @endif
 
     @if (Session::has('danger'))
         <script>
-            toastr.error("{{Session::get('danger')}}")
+            toastr.error("{{ Session::get('danger') }}")
         </script>
     @endif
 

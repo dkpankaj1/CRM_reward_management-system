@@ -23,6 +23,8 @@ return new class extends Migration
             $table->foreign('customer_id')->on('customers')->references('id');
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
+            $table->string('deleted_by')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -30,7 +30,7 @@ class CustomerController extends Controller
                     ->orwhere('city', 'Like', '%' . request('search') . '%');
             }
 
-            $customers = $customer->paginate(10);
+            $customers = $customer->latest()->paginate(10);
 
             return view('customer.index', compact('customers'));
         } catch (\Exception $e) {
@@ -185,9 +185,10 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $customer) :RedirectResponse
+    public function destroy(Request $request,Customer $customer) :RedirectResponse
     {
         try {
+            $customer->update(['deleted_by' => $request->user()->email]);
             $customer->delete();
             return redirect()->route('customer.index')->with('success', 'Customer delete successfull');
         } catch (\Exception $e) {

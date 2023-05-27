@@ -35,6 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/reward/{rewardSetting}/edit', [RewardSettingController::class,'update'])->name('setting.reward.update');
     
     Route::resource('/purchase',PurchaseController::class);
+    Route::get('/purchase/{purchase}/delete', [PurchaseController::class, 'delete'])->name('purchase.delete');
+
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
