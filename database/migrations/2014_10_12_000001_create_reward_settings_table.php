@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('price')->default(0);
             $table->string('point')->default(0);
+            $table->string('alert_limit')->default(0);
             $table->timestamps();
         });
     }

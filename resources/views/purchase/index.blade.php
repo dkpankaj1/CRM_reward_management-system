@@ -35,6 +35,8 @@
                         <th>Product</th>
                         <th>Volume</th>
                         <th>Sale AMT</th>
+                        <th>Reward</th>
+                        <th>Is Redeem</th>
                         <th style="width: 40px">Action</th>
                     </tr>
                 </thead>
@@ -51,6 +53,8 @@
                                 <td>{{ $purchase->product }}</td>
                                 <td>{{ $purchase->volume }}</td>
                                 <td>{{ $purchase->amt }}</td>
+                                <td><span class="badge bg-info px-3 py-2">{{ $purchase->reward}}</span></td>
+                                <td>{!! $purchase->isredeem ? '<span class="badge bg-danger px-3 py-2">redeem</span> ' : '<span class="badge bg-success px-3 py-2">Valid</span>' !!}</td>
                                 <td>
                                     <div class="btn-group">
                                         {{-- <a href="{{ route('purchase.show', $purchase) }}" class="btn btn-warning" title="View"><i class="fas fa-eye"></i></a> --}}

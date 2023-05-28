@@ -22,12 +22,25 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="w-100"></div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label class="form-label">Point</label>
                             <input type="text" name="point" class="form-control"
                                 placeholder="Enter point" value="{{ old('point', $reward->point) }}">
                             @error('point')
+                                <span class="invalid-feedback d-block">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="w-100"></div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Alert Point</label>
+                            <input type="text" name="alert_limit" class="form-control"
+                                placeholder="Enter Alert Limit" value="{{ old('alert_limit', $reward->alert_limit) }}">
+                            @error('alert_limit')
                                 <span class="invalid-feedback d-block">{{ $message }}</span>
                             @enderror
                         </div>

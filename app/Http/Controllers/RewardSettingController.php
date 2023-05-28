@@ -19,7 +19,7 @@ class RewardSettingController extends Controller
         try {
             $reward = RewardSetting::first();
             if($reward == null){
-                RewardSetting::create(['price' => 100,'point' => 1]);
+                RewardSetting::create(['price' => 100,'point' => 1,'alert_limit' => 100]);
                 $reward = RewardSetting::first();
             }
             return view('setting.reward.index', compact('reward'));
@@ -54,13 +54,15 @@ class RewardSettingController extends Controller
     public function update(Request $request, RewardSetting $rewardSetting) : RedirectResponse
     {
         $request->validate([
-            'price' => 'required|numeric',
-            'point' => 'required|numeric',
+            'price'         => 'required|numeric',
+            'point'         => 'required|numeric',
+            'alert_limit'   => 'required|numeric'
         ]);
 
         $reward = [
-            "price" => $request->price,
-            "point" => $request->point,
+            "price"         => $request->price,
+            "point"         => $request->point,
+            'alert_limit'   => (int)$request->alert_limit
         ];
 
         try {

@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class RewardSetting extends Model
 {
     use HasFactory;
-    protected $fillable = ['price','point'];
+    protected $fillable = ['price','point','alert_limit'];
 }

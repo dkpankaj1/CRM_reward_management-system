@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('product')->nullable();
             $table->string('volume')->nullable();
             $table->string('amt')->nullable();
+            $table->string('reward')->default(0);
+            $table->tinyInteger('isredeem')->default(0);
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->on('customers')->references('id');
             $table->string('created_by')->nullable();

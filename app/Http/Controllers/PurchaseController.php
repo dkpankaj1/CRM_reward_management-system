@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\AppHelper;
 use App\Models\Customer;
 use App\Models\Purchase;
 use Illuminate\Http\RedirectResponse;
@@ -24,6 +25,8 @@ class PurchaseController extends Controller
                 'purchases.product',
                 'purchases.volume',
                 'purchases.amt',
+                'purchases.reward',
+                'purchases.isredeem',
                 'customers.card',
                 'customers.name',
                 'customers.vehicle_number'
@@ -84,6 +87,8 @@ class PurchaseController extends Controller
             'product'       => $request->product,
             'volume'        => $request->volume,
             'amt'           => $request->amt,
+            'reward'        => floor(AppHelper::makeReward((int)$request->amt)),
+            'isredeem'      =>0,
             'customer_id'   => $request->customer_id,
             'created_by'    => $request->user()->email,
         ];
@@ -149,6 +154,7 @@ class PurchaseController extends Controller
             'product'       => $request->product,
             'volume'        => $request->volume,
             'amt'           => $request->amt,
+            'reward'        => floor(AppHelper::makeReward((int)$request->amt )) ?? (int) $purchase->amt,
             'customer_id'   => $request->customer_id,
             'created_by'    => $request->user()->email,
         ];

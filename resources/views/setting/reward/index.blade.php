@@ -15,6 +15,7 @@
                     <tr>
                         <th>Price</th>
                         <th>Point</th>
+                        <th>Alert Limit</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -22,6 +23,7 @@
                     <tr>
                         <td>{{ $reward->price }}</td>
                         <td>{{ $reward->point }}</td>
+                        <td>{{ $reward->alert_limit }}</td>
                         <td>
                             <div class="btn-group">
                                 <a href="{{ route('setting.reward.edit', $reward) }}" class="btn btn-info"

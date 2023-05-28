@@ -14,6 +14,8 @@ class Purchase extends Model
         'product',
         'volume',
         'amt',
+        'reward',
+        'isredeem',
         'customer_id',
         'created_by',
         'updated_by'
