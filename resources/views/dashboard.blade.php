@@ -204,16 +204,7 @@
                                             <td>{{ $customer->state }}</td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <a href="{{ route('customer.show', $customer) }}"
-                                                        class="btn btn-warning" title="View"><i
-                                                            class="fas fa-eye"></i></a>
-                                                    <a href="{{ route('customer.edit', $customer) }}"
-                                                        class="btn btn-info" title="Edit"><i
-                                                            class="fas fa-edit"></i></a>
-                                                    <button type="button"
-                                                        data-attr="{{ route('customer.delete', $customer) }}"
-                                                        class="btn btn-danger d3l3t3btn" title="Delete"><i
-                                                            class="fas fa-trash-alt"></i></button>
+                                                    <a href="{{ route('customer.show', $customer) }}" class="btn btn-warning" title="View"><i class="fas fa-eye"></i></a>
                                                 </div>
                                             </td>
                                         </tr>
