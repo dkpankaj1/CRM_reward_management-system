@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\Purchase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\View\View;
 
 class PurchaseController extends Controller
@@ -195,7 +196,7 @@ class PurchaseController extends Controller
         try {
             $purchase->update(['deleted_by' => $request->user()->email]);
             $purchase->delete();
-            return redirect()->route('purchase.index')->with('success', 'delete successfull');
+            return redirect()->back()->with('success', 'delete successfull');
         } catch (\Exception $e) {
             return back()->with('danger', $e->getMessage());
         }

@@ -44,7 +44,6 @@ class DatabaseSeeder extends Seeder
             'payment_type'      => "Google Pay",
             'payment_detail'    => '9784578457'
         ]);
-
         
     }
 }

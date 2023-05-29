@@ -18,7 +18,8 @@ class Purchase extends Model
         'isredeem',
         'customer_id',
         'created_by',
-        'updated_by'
+        'updated_by',
+        'deleted_by'
     ];
 
     public function customer()

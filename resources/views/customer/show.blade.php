@@ -15,7 +15,7 @@
                             <h3 class="profile-username text-center">{{ $customer->name }}</h3>
                             <h5 class="text-muted text-center">{{ $customer->card }}</h5>
                             <h4 class="text-center">Reward Point : <span
-                                    class="text-success">{{ $customer->purchases->sum('reward') }}</span></h4>
+                                    class="text-success">{{ $reward}}</span></h4>
 
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
@@ -135,5 +135,40 @@
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </section>
+
+    @section('script')
+    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+        <script>
+            // confirm delete using bs model
+            $(document).ready(function() {
+                $("body").append(
+                    '<div class="modal fade " id="modelHolder" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"></div></div>'
+                    )
+            });
+            $(document).on("click", ".d3l3t3btn", function(o) {
+                o.preventDefault();
+                let t = $(this).attr("data-attr");
+                $.ajax({
+                    url: t,
+                    beforeSend: function() {
+                        $.LoadingOverlay("show", {
+                            image: "",
+                            fontawesome: "fa fa-cog fa-spin"
+                        })
+                    },
+                    success: function(o) {
+                        $("#modelHolder").modal("show"), $("#modelHolder .modal-dialog").html(o).show()
+                    },
+                    complete: function() {
+                        $.LoadingOverlay("hide")
+                    },
+                    error: function(o, e, n) {
+                        console.log(n), $.LoadingOverlay("hide")
+                    },
+                    timeout: 8e3
+                })
+            });
+        </script>
+    @endsection
 
 </x-app-layout>

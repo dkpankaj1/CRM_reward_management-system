@@ -104,7 +104,8 @@ class CustomerController extends Controller
     {
         try {
             $purchase_history = Purchase::where('customer_id',$customer->id)->latest()->take(50)->get();
-            return view('customer.show', ['customer' => $customer,'purchase_history' => $purchase_history]);
+            $reward = Purchase::where('customer_id', '=', $customer->id)->where('isredeem','=',0)->sum('reward');
+            return view('customer.show', ['customer' => $customer,'purchase_history' => $purchase_history,'reward' => $reward]);
         } catch (\Exception $e) {
             return view('error.404', ['error' => $e->getMessage()]);
         }
