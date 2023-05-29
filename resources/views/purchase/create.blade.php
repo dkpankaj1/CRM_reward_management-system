@@ -17,7 +17,7 @@
                             <select class="form-control select2" style="width: 100%;" name="customer_id">
                                 <option value=""> -- select --</option>
                                 @foreach ($customers as $customer)
-                                    <option value="{{ $customer->id }}">{{ $customer->name }} | {{ $customer->card }}
+                                    <option value="{{ $customer->id }}" {{old('customer_id', request()->customer) == $customer->id ? "selected":"" }}>{{ $customer->name }} | {{ $customer->card }}
                                     </option>
                                 @endforeach
                             </select>

@@ -1,17 +1,17 @@
 <x-app-layout>
 
     @section('breadcrumb')
-    {{ Breadcrumbs::render('dashboard') }}
+        {{ Breadcrumbs::render('dashboard') }}
     @endsection
 
-    
+
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
                 <h2 class="text-center display-5">Search</h2>
                 <div class="row">
                     <div class="col-md-8 offset-md-2">
-                        <form action="{{route('customer.index')}}">
+                        <form action="{{ route('customer.index') }}">
                             <div class="input-group">
                                 <input type="search" name="search" class="form-control form-control-lg"
                                     placeholder="Type your keywords here">
@@ -37,8 +37,8 @@
                     <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Messages</span>
-                        <span class="info-box-number">1,410</span>
+                        <span class="info-box-text">Customer</span>
+                        <span class="info-box-number">{{ \App\Models\Customer::count() }}</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -50,8 +50,8 @@
                     <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Bookmarks</span>
-                        <span class="info-box-number">410</span>
+                        <span class="info-box-text">Total Sale</span>
+                        <span class="info-box-number">{{ \App\Models\Purchase::sum('amt') }}</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -63,8 +63,8 @@
                     <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Uploads</span>
-                        <span class="info-box-number">13,648</span>
+                        <span class="info-box-text">Total Reward</span>
+                        <span class="info-box-number">{{ \App\Models\Purchase::sum('reward') }}</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -76,8 +76,8 @@
                     <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Likes</span>
-                        <span class="info-box-number">93,139</span>
+                        <span class="info-box-text">Total Payment</span>
+                        <span class="info-box-number">0</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -112,17 +112,7 @@
 
                     <div class="card-header">
 
-                        <h3 class="card-title"></h3>
-
-                        <div class="card-tools">
-                            <ul class="pagination pagination-sm float-right">
-                                <li class="page-item"><a class="page-link" href="#">«</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">»</a></li>
-                            </ul>
-                        </div>
+                        <h3 class="card-title">Rewarded Customer</h3>
 
                     </div>
                     <!-- /.card-header -->
@@ -136,99 +126,26 @@
                                     <th>Name</th>
                                     <th>Phone</th>
                                     <th>Vehicle Number</th>
-                                    <th>Progress</th>
-                                    <th style="width: 40px">Label</th>
-                                    <th style="width: 40px">Action</th>
+                                    <th>Total Point</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
 
                             <tbody>
 
-                                <tr>
-                                    <td>1.</td>
-                                    <td>Username 1</td>
-                                    <td>+91 9794445940</td>
-                                    <td>Up 53 AD 7099</td>
-                                    <td>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-danger">55%</span></td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-outline-success"><i
-                                                class="fas fa-money-bill"></i></button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>1.</td>
-                                    <td>Username 1</td>
-                                    <td>+91 9794445940</td>
-                                    <td>Up 53 AD 7099</td>
-                                    <td>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-danger">55%</span></td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-outline-success"><i
-                                                class="fas fa-money-bill"></i></button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>1.</td>
-                                    <td>Username 1</td>
-                                    <td>+91 9794445940</td>
-                                    <td>Up 53 AD 7099</td>
-                                    <td>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-danger">55%</span></td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-outline-success"><i
-                                                class="fas fa-money-bill"></i></button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>1.</td>
-                                    <td>Username 1</td>
-                                    <td>+91 9794445940</td>
-                                    <td>Up 53 AD 7099</td>
-                                    <td>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-danger">55%</span></td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-outline-success"><i
-                                                class="fas fa-money-bill"></i></button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>1.</td>
-                                    <td>Username 1</td>
-                                    <td>+91 9794445940</td>
-                                    <td>Up 53 AD 7099</td>
-                                    <td>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-danger">55%</span></td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-outline-success"><i
-                                                class="fas fa-money-bill"></i></button>
-                                    </td>
-                                </tr>
-
+                                @foreach ($rewards as $key => $item)
+                                    <tr>
+                                        <td>{{$key+1}}</td>
+                                        <td>{{$item->name}}</td>
+                                        <td>{{$item->phone}}</td>
+                                        <td>{{$item->vehicle_number}}</td>                                       
+                                        <td><span class="badge bg-info">{{$item->rewards}}</span></td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-outline-success"><i
+                                                    class="fas fa-money-bill"></i></button>
+                                        </td>
+                                    </tr>
+                                @endforeach
 
                             </tbody>
 
@@ -253,16 +170,6 @@
 
                         <h3 class="card-title">New Customer</h3>
 
-                        <div class="card-tools">
-                            <ul class="pagination pagination-sm float-right">
-                                <li class="page-item"><a class="page-link" href="#">«</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">»</a></li>
-                            </ul>
-                        </div>
-
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body p-0 table-responsive">
@@ -272,102 +179,50 @@
                             <thead>
                                 <tr>
                                     <th style="width: 10px">#</th>
+                                    <th>Card</th>
                                     <th>Name</th>
                                     <th>Phone</th>
                                     <th>Vehicle Number</th>
-                                    <th>Progress</th>
-                                    <th style="width: 40px">Label</th>
-                                    <th style="width: 40px">Action</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
 
                             <tbody>
 
-                                <tr>
-                                    <td>1.</td>
-                                    <td>Username 1</td>
-                                    <td>+91 9794445940</td>
-                                    <td>Up 53 AD 7099</td>
-                                    <td>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-danger">55%</span></td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-outline-success"><i
-                                                class="fas fa-money-bill"></i></button>
-                                    </td>
-                                </tr>
+                                @if (count($customers) > 0)
 
-                                <tr>
-                                    <td>1.</td>
-                                    <td>Username 1</td>
-                                    <td>+91 9794445940</td>
-                                    <td>Up 53 AD 7099</td>
-                                    <td>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-danger">55%</span></td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-outline-success"><i
-                                                class="fas fa-money-bill"></i></button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>1.</td>
-                                    <td>Username 1</td>
-                                    <td>+91 9794445940</td>
-                                    <td>Up 53 AD 7099</td>
-                                    <td>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-danger">55%</span></td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-outline-success"><i
-                                                class="fas fa-money-bill"></i></button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>1.</td>
-                                    <td>Username 1</td>
-                                    <td>+91 9794445940</td>
-                                    <td>Up 53 AD 7099</td>
-                                    <td>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-danger">55%</span></td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-outline-success"><i
-                                                class="fas fa-money-bill"></i></button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>1.</td>
-                                    <td>Username 1</td>
-                                    <td>+91 9794445940</td>
-                                    <td>Up 53 AD 7099</td>
-                                    <td>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge bg-danger">55%</span></td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-outline-success"><i
-                                                class="fas fa-money-bill"></i></button>
-                                    </td>
-                                </tr>
-
+                                    @foreach ($customers as $customer)
+                                        <tr>
+                                            <td>#</td>
+                                            <td>{{ $customer->card }}</td>
+                                            <td>{{ $customer->name }}</td>
+                                            <td>{{ $customer->phone }}</td>
+                                            <td>{{ $customer->vehicle_number }}</td>
+                                            <td>{{ $customer->city }}</td>
+                                            <td>{{ $customer->state }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="{{ route('customer.show', $customer) }}"
+                                                        class="btn btn-warning" title="View"><i
+                                                            class="fas fa-eye"></i></a>
+                                                    <a href="{{ route('customer.edit', $customer) }}"
+                                                        class="btn btn-info" title="Edit"><i
+                                                            class="fas fa-edit"></i></a>
+                                                    <button type="button"
+                                                        data-attr="{{ route('customer.delete', $customer) }}"
+                                                        class="btn btn-danger d3l3t3btn" title="Delete"><i
+                                                            class="fas fa-trash-alt"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="9" class="text-center">No Record Found..</td>
+                                    </tr>
+                                @endif
 
                             </tbody>
 
@@ -384,9 +239,7 @@
     @section('script')
         <script>
             var areaChartData = {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-                    'November', 'December'
-                ],
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October','November', 'December'],
                 datasets: [{
                     label: 'Sell',
                     backgroundColor: 'rgba(60,141,188,0.9)',
@@ -396,7 +249,7 @@
                     pointStrokeColor: 'rgba(60,141,188,1)',
                     pointHighlightFill: '#fff',
                     pointHighlightStroke: 'rgba(60,141,188,1)',
-                    data: [28, 48, 40, 19, 86, 27, 90]
+                    data: @json($saledata),
                 }, ]
             }
             //-------------

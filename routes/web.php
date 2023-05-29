@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RewardSettingController;
@@ -21,20 +22,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
 
     Route::resource('customer', CustomerController::class);
     Route::get('/customer/{customer}/delete', [CustomerController::class, 'delete'])->name('customer.delete');
 
-    Route::get('/reward', [RewardSettingController::class,'index'])->name('setting.reward.index');
-    Route::get('/reward/{rewardSetting}/edit', [RewardSettingController::class,'edit'])->name('setting.reward.edit');
-    Route::put('/reward/{rewardSetting}/edit', [RewardSettingController::class,'update'])->name('setting.reward.update');
-    
-    Route::resource('/purchase',PurchaseController::class);
+    Route::get('/reward', [RewardSettingController::class, 'index'])->name('setting.reward.index');
+    Route::get('/reward/{rewardSetting}/edit', [RewardSettingController::class, 'edit'])->name('setting.reward.edit');
+    Route::put('/reward/{rewardSetting}/edit', [RewardSettingController::class, 'update'])->name('setting.reward.update');
+
+    Route::resource('/purchase', PurchaseController::class);
     Route::get('/purchase/{purchase}/delete', [PurchaseController::class, 'delete'])->name('purchase.delete');
 
 

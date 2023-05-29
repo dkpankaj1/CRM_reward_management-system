@@ -99,7 +99,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
                         <!-- End::Reward Menu-->
 
-                        <!-- Begin::Payment Menu-->
+                        {{-- <!-- Begin::Payment Menu-->
                         <li class="nav-item">
                             <a href="{{ route('dashboard') }}" class="nav-link">
                                 <i class="nav-icon fas fa-money-bill-wave"></i>
@@ -138,7 +138,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                             </ul>
                         </li>
-                        <!-- End::Report Menu-->
+                        <!-- End::Report Menu--> --}}
 
                         <!-- Begin::Profile Menu-->
                         <li class="nav-item">

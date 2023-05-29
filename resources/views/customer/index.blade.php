@@ -52,7 +52,7 @@
                                 <td>{{ $customer->state }}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ route('customer.show', $customer) }}" class="btn btn-success" title="Add Activity"><i class="fas fa-plus-circle"></i></a>
+                                        <a href="{{ route('purchase.create', ['customer' =>$customer]) }}" class="btn btn-success" title="New Purchase"><i class="fas fa-plus-circle"></i></a>
                                         <a href="{{ route('customer.show', $customer) }}" class="btn btn-warning" title="View"><i class="fas fa-eye"></i></a>
                                         <a href="{{ route('customer.edit', $customer) }}" class="btn btn-info" title="Edit"><i class="fas fa-edit"></i></a>
                                         <button type="button" data-attr="{{route('customer.delete',$customer)}}" class="btn btn-danger d3l3t3btn" title="Delete"><i class="fas fa-trash-alt"></i></button>

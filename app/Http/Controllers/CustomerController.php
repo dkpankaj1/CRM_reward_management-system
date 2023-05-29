@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Purchase;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -102,7 +103,8 @@ class CustomerController extends Controller
     public function show(Customer $customer): View
     {
         try {
-            return view('customer.show', ['customer' => $customer]);
+            $purchase_history = Purchase::where('customer_id',$customer->id)->latest()->take(50)->get();
+            return view('customer.show', ['customer' => $customer,'purchase_history' => $purchase_history]);
         } catch (\Exception $e) {
             return view('error.404', ['error' => $e->getMessage()]);
         }
