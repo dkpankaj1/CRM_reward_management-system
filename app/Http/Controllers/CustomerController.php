@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Purchase;
+use App\Models\Redeem;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -105,7 +106,9 @@ class CustomerController extends Controller
         try {
             $purchase_history = Purchase::where('customer_id',$customer->id)->latest()->take(50)->get();
             $reward = Purchase::where('customer_id', '=', $customer->id)->where('isredeem','=',0)->sum('reward');
-            return view('customer.show', ['customer' => $customer,'purchase_history' => $purchase_history,'reward' => $reward]);
+            $redeem_history = Redeem::where('customer_id',$customer->id)->get();
+
+            return view('customer.show', ['customer' => $customer,'purchase_history' => $purchase_history,'reward' => $reward,'redeem_history'=>$redeem_history]);
         } catch (\Exception $e) {
             return view('error.404', ['error' => $e->getMessage()]);
         }

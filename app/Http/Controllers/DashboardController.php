@@ -34,7 +34,7 @@ class DashboardController extends Controller
         $r = DB::table('customers')
             ->where('purchases.isredeem','=', "0")
             ->where('purchases.deleted_at','=', null)
-            ->select('customers.id', 'customers.name', 'customers.vehicle_number', 'customers.phone', DB::raw('sum(purchases.reward) as rewards'))
+            ->select('customers.id as customer_id', 'customers.name', 'customers.vehicle_number', 'customers.phone', DB::raw('sum(purchases.reward) as rewards'))
             ->join('purchases', 'customers.id', '=', 'purchases.customer_id')
             ->groupBy(['customers.id', 'customers.name', 'customers.vehicle_number', 'customers.phone'])
             ->take(5)

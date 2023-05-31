@@ -26,5 +26,8 @@ class Purchase extends Model
     {
         $this->belongsTo(Customer::class);
     }
+    public function redeems(){
+        return $this->belongsToMany(Redeem::class,'purchase_redeem');
+    }
 
 }

@@ -26,4 +26,7 @@ class Customer extends Model
     public function purchases(){
         return $this->hasMany(Purchase::class);
     }
+    public function redeems(){
+        return $this->hasMany(Redeem::class);
+    }
 }

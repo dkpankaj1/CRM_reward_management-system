@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Purchase;
+use App\Models\Redeem;
 use App\Models\RewardSetting;
 use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
 use App\Models\Customer;
@@ -56,6 +57,31 @@ Breadcrumbs::for ('purchase.show', function ($trail,Purchase $purchase) {
 Breadcrumbs::for ('purchase.edit', function ($trail,Purchase $purchase) {
     $trail->parent('purchase.index');
     $trail->push('Edit', route('purchase.edit',$purchase));
+});
+
+
+// Redeem
+Breadcrumbs::for ('redeem.index', function ($trail) {
+    $trail->parent('dashboard');
+    $trail->push('Redeem', route('redeem.index'));
+});
+// Redeem > create
+Breadcrumbs::for ('redeem.create', function ($trail,Customer $customer) {
+    $trail->parent('redeem.index');
+    $trail->push('Create', route('redeem.create',$customer));
+});
+
+// Redeem > show
+Breadcrumbs::for ('redeem.show', function ($trail,Redeem $redeem) {
+    $trail->parent('redeem.index');
+    $trail->push('Show', route('redeem.show',$redeem));
+});
+
+// Redeem > show
+Breadcrumbs::for ('redeem.payment', function ($trail,Redeem $redeem) {
+    $trail->parent('redeem.index');
+    $trail->push($redeem->id);
+    $trail->push('Payment', route('redeem.payment',$redeem));
 });
 
 

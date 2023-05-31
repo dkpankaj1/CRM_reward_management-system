@@ -14,8 +14,8 @@
 
                             <h3 class="profile-username text-center">{{ $customer->name }}</h3>
                             <h5 class="text-muted text-center">{{ $customer->card }}</h5>
-                            <h4 class="text-center">Reward Point : <span
-                                    class="text-success">{{ $reward}}</span></h4>
+                            <h4 class="text-center">Reward Point : <span class="text-success">{{ $reward }}</span>
+                            </h4>
 
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
@@ -37,8 +37,9 @@
                             </ul>
 
                             <a href="{{ route('customer.edit', $customer) }}" class="btn btn-info">Edit</a>
-                            <a href="" class="btn btn-success">Create Payment</a>
-                            <a href="{{ route('purchase.create', ['customer' =>$customer]) }}" class="btn btn-primary">Add Purchase</a>
+                            <a href="{{ route('redeem.create', $customer) }}" class="btn btn-success">Redeem</a>
+                            <a href="{{ route('purchase.create', ['customer' => $customer]) }}"
+                                class="btn btn-primary">Add Purchase</a>
 
                         </div>
                         <!-- /.card-body -->
@@ -51,8 +52,8 @@
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
                                 <li class="nav-item"><a class="nav-link active" href="#purchase"
-                                        data-toggle="tab">Purchase</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#payment" data-toggle="tab">Payment
+                                        data-toggle="tab">Purchase History</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#payment" data-toggle="tab">Redeem
                                         History</a>
                                 </li>
                             </ul>
@@ -90,8 +91,8 @@
                                                                 class="badge bg-info px-3 py-2">{{ $purchase->reward }}</span>
                                                         </td>
                                                         <td>{!! $purchase->isredeem
-                                                            ? '<span class="badge bg-danger px-3 py-2">redeem</span> '
-                                                            : '<span class="badge bg-success px-3 py-2">Valid</span>' !!}</td>
+                                                            ? '<span class="badge bg-success px-3 py-2">redeem</span> '
+                                                            : '<span class="badge bg-info px-3 py-2">valid</span>' !!}</td>
                                                         <td>
                                                             <div class="btn-group">
                                                                 {{-- <a href="{{ route('purchase.show', $purchase) }}" class="btn btn-warning" title="View"><i class="fas fa-eye"></i></a> --}}
@@ -120,7 +121,47 @@
                                 </div>
                                 <!--end::activity panel-->
                                 <!--Begin::purchase panel-->
-                                <div class="active tab-pane" id="payment">
+                                <div class="tab-pane table-responsive" id="payment">
+                                    <table class="table table-sm">
+
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 10px">#</th>
+                                                <th>Amt</th>
+                                                <th>Pay Amt</th>
+                                                <th>Paymeny Method</th>
+                                                <th>Paymeny Detail</th>
+                                                <th>Paymeny Trans. ID</th>
+                                                <th>Date</th>
+                                                <th>Payment Status</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @if (count($redeem_history) > 0)
+                                                @foreach ($redeem_history as $key => $redeem)
+                                                    <tr>
+                                                        <td>{{ $key + 1 }}</td>
+                                                        <td>{{ $redeem->amt }}</td>
+                                                        <td>{{ $redeem->pay_amt }}</td>
+                                                        <td>{{ $redeem->payment_method }}</td>
+                                                        <td>{{ $redeem->payment_detail }}</td>
+                                                        <td>{{ $redeem->trans_id }}</td>
+                                                        <td>{{ $redeem->created_at }}</td>
+                                                        <td>{!! $redeem->status == 0 ?'<span class="badge bg-warning px-3 py-2">Pending</span>' :'<span class="badge bg-success px-3 py-2">Success</span>' !!}</td>
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                                <tr>
+                                                    <td colspan="8">No History..</td>
+                                                </tr>
+
+                                            @endif
+
+
+                                        </tbody>
+
+                                    </table>
                                 </div>
                                 <!--end::purchase panel-->
 
@@ -137,13 +178,14 @@
     </section>
 
     @section('script')
-    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js">
+        </script>
         <script>
             // confirm delete using bs model
             $(document).ready(function() {
                 $("body").append(
                     '<div class="modal fade " id="modelHolder" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog modal-dialog-centered"></div></div>'
-                    )
+                )
             });
             $(document).on("click", ".d3l3t3btn", function(o) {
                 o.preventDefault();

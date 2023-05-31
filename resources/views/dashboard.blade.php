@@ -77,7 +77,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">Total Payment</span>
-                        <span class="info-box-number">0</span>
+                        <span class="info-box-number">{{ \App\Models\Redeem::sum('pay_amt') }}</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -141,8 +141,8 @@
                                         <td>{{$item->vehicle_number}}</td>                                       
                                         <td><span class="badge bg-info">{{$item->rewards}}</span></td>
                                         <td>
-                                            <button type="button" class="btn btn-sm btn-outline-success"><i
-                                                    class="fas fa-money-bill"></i></button>
+                                            <a href="{{ route('redeem.create',$item->customer_id)}}" class="btn btn-sm btn-outline-success"><i
+                                                    class="fas fa-money-bill-wave"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
